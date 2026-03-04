@@ -14,6 +14,10 @@ export async function GET(
       { status: 404 }
     );
   }
+  if (!sku || typeof sku !== "string") {
+    return NextResponse.json({ error: "Invalid SKU" }, { status: 400 });
+  }
+  
 
   return NextResponse.json(product);
 }
