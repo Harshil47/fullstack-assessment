@@ -52,7 +52,7 @@ export default function Home() {
 
   useEffect(() => {
     if (selectedCategory) {
-      fetch(`/api/subcategories`)
+      fetch(`/api/subcategories?category=${selectedCategory}`)
         .then((res) => res.json())
         .then((data) => setSubCategories(data.subCategories));
     } else {
@@ -163,12 +163,10 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {products.map((product) => (
                 <Link
-                  key={product.stacklineSku}
-                  href={{
-                    pathname: "/product",
-                    query: { product: JSON.stringify(product) },
-                  }}
+                key={product.stacklineSku}
+                href={`/product/${product.stacklineSku}`}
                 >
+              
                   <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
                     <CardHeader className="p-0">
                       <div className="relative h-48 w-full overflow-hidden rounded-t-lg bg-muted">

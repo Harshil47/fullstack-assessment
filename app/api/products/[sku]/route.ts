@@ -3,7 +3,7 @@ import { productService } from '@/lib/products';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ sku: string }> }
+  { params }: { params: { sku: string } }
 ) {
   const { sku } = await params;
   const product = productService.getById(sku);

@@ -1,37 +1,66 @@
-# Stackline Full Stack Assignment
+This project is a sample eCommerce application built with Next.js (App Router) that includes:
 
-## Overview
+* Product List Page
+* Category & Subcategory Filtering
+* Search
+* Product Detail Page
+* API Routes
 
-This is a sample eCommerce website that includes:
-- Product List Page
-- Search Results Page
-- Product Detail Page
+The original implementation contained architectural issues, security risks, missing error handling, and performance problems.
+# Issues Identified & Fixes
 
-The application contains various bugs including UX issues, design problems, functionality bugs, and potential security vulnerabilities.
+## 1. Product Data Passed via Query String 
 
-## Getting Started
+**Issue:**
+The entire product object was passed via URL query parameters and parsed on the Product page.
 
-```bash
-yarn install
-yarn dev
-```
+**Problems:**
 
-## Your Task
+* Security risk via URL manipulation
+* Large/unreliable URLs
+* API routes unused
+* Not shareable or reload-safe
 
-1. **Identify and fix bugs** - Review the application thoroughly and fix any issues you find
-2. **Document your work** - Create a comprehensive README that includes:
-   - What bugs/issues you identified
-   - How you fixed each issue
-   - Why you chose your approach
-   - Any improvements or enhancements you made
+**Fix:**
+Implemented dynamic routing (`/product/[sku]`) and fetched product data from `/api/product/[sku]`.
+It Ensures secure, RESTful, and scalable architecture aligned with Next.js best practices.
 
-We recommend spending no more than 2 hours on this assignment. We are more interested in the quality of your work and your communication than the amount of time you spend or how many bugs you fix!
+## 2. Broken Subcategory Filtering
 
-## Submission
+**Issue:**
+Frontend did not pass `category` to `/api/subcategories`.
+Updated API call to include `?category=` query parameter.
+Restores correct filtering behavior and enforces proper API contract.
 
-- Fork this repository
-- Make your fixes and improvements
-- **Replace this README** with your own that clearly documents all changes and your reasoning
-- Provide your Stackline contact with a link to a git repository where you have committed your changes
+## 3. Missing Error Handling in Fetch Calls
 
-We're looking for clear communication about your problem-solving process as much as the technical fixes themselves.
+**Issue:**
+All fetch calls assumed success and lacked error handling.
+Added `res.ok` checks, `catch` blocks, and fallback UI states.
+Prevents UI from breaking or hanging during network/API failures.
+
+## 4. Incorrect API Route Typing
+
+**Issue:**
+`params` in product API route was incorrectly typed as a `Promise`.
+Corrected TypeScript typing to `{ params: { sku: string } }`.
+Ensures proper type safety and correctness.
+
+# Enhancements Made
+
+* Migrated to secure dynamic routing
+* Improved API validation
+* Added defensive programming patterns
+* Improved performance and UX
+* Strengthened TypeScript correctness
+
+# Result
+
+The application now:
+
+* Uses proper RESTful dynamic routing
+* Securely fetches product data from the API
+* Handles errors gracefully
+* Filters correctly
+* Performs efficiently
+* Follows Next.js App Router best practices
